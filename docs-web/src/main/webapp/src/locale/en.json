@@ -177,7 +177,7 @@
       "add_files": "Add files",
       "add_new_document": "Add to new document",
       "latest_activity": "Latest activity",
-      "footer_sismics": "Crafted with <span class=\"fas fa-heart\"></span> by <a href=\"https://www.sismics.com\" target=\"_blank\">Sismics</a>",
+      "footer_sismics": "<span class=\"fas fa-at\"></span> 2025 Boveda • All right reserved. • Powered by <img src=\"img/logo_cubes.png\" style=\"height:5%; width:5%; opacity:1 !important\" /> Cubeworks Technology Consulting and Solutions, Inc.",
       "api_documentation": "API Documentation",
       "feedback": "Give us a feedback",
       "workflow_document_list": "Documents assigned to you",
@@ -341,9 +341,9 @@
         "drag_help": "Drag and drop to reorder the step",
         "type": "Step type",
         "type_approve": "Approve",
-        "type_validate": "Validate",
+        "type_validate": "Review",
         "target": "Assigned to",
-        "target_help": "<strong>Approve:</strong> Accept or reject the review<br/><strong>Validate:</strong> Review and continue the workflow",
+        "target_help": "<strong>Approve:</strong> Accept or reject the review<br/><strong>Review:</strong> Review and continue the workflow",
         "add_step": "Add a workflow step",
         "actions": "What happens after?",
         "remove_action": "Remove action",
@@ -505,9 +505,9 @@
   },
   "feedback": {
     "title": "Give us a feedback",
-    "message": "Any suggestion or question about Teedy? We listen to you!",
+    "message": "Any suggestion or question about Boveda? We listen to you!",
     "sent_title": "Feedback sent",
-    "sent_message": "Thank you for your feedback! It will help us make Teedy even better."
+    "sent_message": "Thank you for your feedback! It will help us make Boveda even better."
   },
   "import": {
     "title": "Importing",
@@ -570,13 +570,13 @@
     "SHARE": "Shared"
   },
   "workflow_type": {
-    "VALIDATE": "Validation",
-    "APPROVE": "Approbation"
+    "VALIDATE": "Review",
+    "APPROVE": "Approval"
   },
   "workflow_transition": {
     "APPROVED": "Approved",
     "REJECTED": "Rejected",
-    "VALIDATED": "Validated"
+    "VALIDATED": "Reviewed"
   },
   "validation": {
     "required": "Required",
@@ -602,11 +602,11 @@
   "onboarding": {
     "step1": {
       "title": "First time?",
-      "description": "If it's your first time on Teedy, click the Next button, otherwise feel free to close me."
+      "description": "If it's your first time on Boveda, click the Next button, otherwise feel free to close me."
     },
     "step2": {
       "title": "Documents",
-      "description": "Teedy is organized in documents and each document contains multiple files."
+      "description": "Boveda is organized in documents and each document contains multiple files."
     },
     "step3": {
       "title": "Files",

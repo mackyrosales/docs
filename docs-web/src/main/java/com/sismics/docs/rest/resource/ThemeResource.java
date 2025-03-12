@@ -82,7 +82,7 @@ public class ThemeResource extends BaseResource {
     public Response get() {
         JsonObject themeConfig = getThemeConfig();
         JsonObjectBuilder json = Json.createObjectBuilder();
-        json.add("name", themeConfig.getString("name", "Teedy"));
+        json.add("name", themeConfig.getString("name", "Boveda"));
         json.add("color", themeConfig.getString("color", "#ffffff"));
         json.add("css", themeConfig.getString("css", ""));
         return Response.ok().entity(json.build()).build();

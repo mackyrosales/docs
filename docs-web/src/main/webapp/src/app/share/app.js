@@ -137,7 +137,7 @@ angular.module('share',
   $rootScope.$stateParams = $stateParams;
 
   // Fetch the current theme configuration
-  $rootScope.appName = '';
+  $rootScope.appName = 'Boveda';
   Restangular.one('theme').get().then(function(data) {
     $rootScope.appName = data.name;
   });
