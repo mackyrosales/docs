@@ -62,7 +62,11 @@ abstract class DbOpenHelper {
 
         try {
             try {
+                
                 connection = jdbcConnectionAccess.obtainConnection();
+                System.out.println("Connection: " + connection.toString());
+
+                log.info("Connection successful");
             } catch (SQLException sqle) {
                 exceptions.add(sqle);
                 log.error("Unable to get database metadata", sqle);
@@ -73,7 +77,9 @@ abstract class DbOpenHelper {
             Integer oldVersion = null;
             try {
                 stmt = connection.createStatement();
+                System.out.println("Getting result:");
                 ResultSet result = stmt.executeQuery("select c.CFG_VALUE_C from T_CONFIG c where c.CFG_ID_C='DB_VERSION'");
+                System.out.println("Result: " + result);
                 if (result.next()) {
                     String oldVersionStr = result.getString(1);
                     oldVersion = Integer.parseInt(oldVersionStr);

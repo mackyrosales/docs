@@ -34,8 +34,12 @@ public final class EMF {
         try {
             properties = getEntityManagerProperties();
 
+            System.out.println("properties: " + properties);
+
             ConfigurationHelper.resolvePlaceHolders(properties);
             ServiceRegistry reg = new StandardServiceRegistryBuilder().applySettings(properties).build();
+
+            System.out.println("reg: " + reg);
 
             DbOpenHelper openHelper = new DbOpenHelper(reg) {
                 @Override
@@ -68,13 +72,20 @@ public final class EMF {
                 
                 InputStream is = hibernatePropertiesUrl.openStream();
                 Properties properties = new Properties();
+                System.out.println("is: " + is);
                 properties.load(is);
+
+                // Verify connection parameters
+                log.info("Connecting to database: {}", properties.getProperty("hibernate.connection.url"));
+                log.info("Using username: {}", properties.getProperty("hibernate.connection.username"));
+                
                 return properties;
             }
         } catch (IOException | IllegalArgumentException e) {
             log.error("Error reading hibernate.properties", e);
         }
         
+        log.info("Went here hibernatePropertiesUrl is null");
         // Use environment parameters
         String databaseUrl = System.getenv("DATABASE_URL");
         String databaseUsername = System.getenv("DATABASE_USER");
