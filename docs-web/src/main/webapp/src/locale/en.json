@@ -71,10 +71,10 @@
     "language": "Language",
     "creation_date": "Creation date",
     "subject": "Subject",
-    "identifier": "Identifier",
+    "identifier": "Control No.",
     "publisher": "Publisher",
     "format": "Format",
-    "source": "Source",
+    "source": "Location",
     "type": "Type",
     "coverage": "Coverage",
     "rights": "Rights",
@@ -323,7 +323,10 @@
         "password_lost_sent_message": "A password reset email has been sent to <strong>{{ username }}</strong>",
         "disable_totp_btn": "Disable two-factor authentification for this user",
         "disable_totp_title": "Disable two-factor authentication",
-        "disable_totp_message": "Are you sure you want to disable two-factor authentication for this user?"
+        "disable_totp_message": "Are you sure you want to disable two-factor authentication for this user?",
+        "signature": "E-Signature",
+        "signature_placeholder": "Upload your signature...",
+        "current_file": ""
       }
     },
     "workflow": {
