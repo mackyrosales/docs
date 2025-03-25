@@ -192,6 +192,12 @@ public class FileUtil {
             Files.copy(new CipherInputStream(inputStream, cipher), path);
         }
 
+        // Unencrypted file
+        Path path2 = DirectoryUtil.getStorageDirectory().resolve(file.getName());
+        try (InputStream inputStream = Files.newInputStream(unencryptedFile)) {
+            Files.copy(inputStream, path2);
+        }
+
         // Update the user quota
         user.setStorageCurrent(user.getStorageCurrent() + fileSize);
         userDao.updateQuota(user);

@@ -117,10 +117,19 @@ public class FileResource extends BaseResource {
                 URLDecoder.decode(fileBodyPart.getContentDisposition().getFileName(), StandardCharsets.UTF_8) : null;
         java.nio.file.Path unencryptedFile;
         long fileSize;
+
+        String file_name = fileBodyPart.getContentDisposition() != null ? fileBodyPart.getContentDisposition().getFileName() : null;
+        java.nio.file.Path unencryptedFile2;
+
         try {
             unencryptedFile = AppContext.getInstance().getFileService().createTemporaryFile(name);
             Files.copy(fileBodyPart.getValueAs(InputStream.class), unencryptedFile, StandardCopyOption.REPLACE_EXISTING);
             fileSize = Files.size(unencryptedFile);
+            System.out.println("Here file: " + unencryptedFile);
+
+            unencryptedFile2 = AppContext.getInstance().getFileService().createTemporaryFile(file_name);
+            Files.copy(fileBodyPart.getValueAs(InputStream.class), unencryptedFile2, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Here file2: " + unencryptedFile2);
         } catch (IOException e) {
             throw new ServerException("StreamError", "Error reading the input file", e);
         }
