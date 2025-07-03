@@ -98,6 +98,7 @@
     <script src="app/docs/controller/usergroup/UserGroup.js" type="text/javascript"></script>
     <script src="app/docs/controller/usergroup/UserProfile.js" type="text/javascript"></script>
     <script src="app/docs/controller/usergroup/GroupProfile.js" type="text/javascript"></script>
+    <script src="app/docs/controller/CustomPage.js" type="text/javascript"></script>
     <script src="app/docs/service/User.js" type="text/javascript"></script>
     <script src="app/docs/filter/Filesize.js" type="text/javascript"></script>
     <script src="app/docs/directive/SelectTag.js" type="text/javascript"></script>
@@ -143,6 +144,9 @@
           </li>
           <li ui-sref-active="{ active: 'user.**', active2: 'group.**' }">
             <a href="#/user"><span class="fas fa-user"></span> {{ 'index.nav_users_groups' | translate }}</a>
+          </li>
+          <li ui-sref-active="{ active: 'custompage' }">
+            <a href="#/custompage"><span class="fas fa-star"></span> Custom Page</a>
           </li>
         </ul>
 

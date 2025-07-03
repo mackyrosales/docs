@@ -9,16 +9,85 @@
   }
 }
 
-// Navbar color
+// Navbar color - Updated to violet theme
 .navbar {
-  background-color: #24292e;
+  background-color: #6f42c1; // Primary violet color
+  border-bottom: 1px solid #5a339a;
+}
+
+.navbar-default {
+  background-color: #6f42c1;
+  border-color: #5a339a;
+
+  .navbar-brand {
+    color: white !important;
+    font-weight: 600;
+    
+    &:hover, &:focus {
+      color: #f8f9fa !important;
+    }
+  }
+
+  .navbar-nav > li > a {
+    color: white !important;
+    
+    &:hover, &:focus {
+      color: #f8f9fa !important;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .navbar-nav > .active > a,
+  .navbar-nav > .active > a:hover,
+  .navbar-nav > .active > a:focus {
+    color: #fff !important;
+    background-color: #5a339a;
+  }
+
+  .navbar-toggle {
+    border-color: rgba(255, 255, 255, 0.3);
+    
+    .icon-bar {
+      background-color: white;
+    }
+    
+    &:hover, &:focus {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// Body and base colors
+body {
+  background-color: #ffffff;
+  color: #2d3748;
+}
+
+// Primary color updates
+.btn-primary {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  
+  &:hover, &:focus, &:active {
+    background-color: #5a339a;
+    border-color: #5a339a;
+  }
+}
+
+// Links
+a {
+  color: #6f42c1;
+  
+  &:hover, &:focus {
+    color: #5a339a;
+  }
 }
 
 // Selected table line
 .table tr {
   &.active {
     td {
-      background-color: #e8e8e8 !important;
+      background-color: #f3f0ff !important; // Light violet
     }
   }
 }
@@ -36,6 +105,7 @@ ul.tag-tree {
 
     .active {
       font-weight: 500;
+      color: #6f42c1;
     }
   }
 }
@@ -111,9 +181,10 @@ ul.tag-tree {
     white-space: nowrap;
     text-transform: uppercase;
     font-weight: 500;
-    background-color: #bdbdbd17;
+    background-color: #f8f9fa;
     border: none !important;
     font-size: 90%;
+    color: #6f42c1;
   }
 	
   tbody tr {
@@ -129,6 +200,11 @@ ul.tag-tree {
       }
 
       border: none;
+      color: #2d3748;
+    }
+    
+    &:hover {
+      background-color: #f8f9fa;
     }
   }
 }
@@ -137,6 +213,8 @@ ul.tag-tree {
 .footer {
   border-top: 1px #e1e4e8 solid;
   padding: 20px;
+  background-color: #f8f9fa;
+  color: #6c757d;
 
   img {
     opacity: 0.1;
@@ -162,6 +240,10 @@ ul.tag-tree {
 .table-users {
 	tbody tr {
     cursor: pointer;
+    
+    &:hover {
+      background-color: #f8f9fa;
+    }
   }
 }
 
@@ -171,7 +253,7 @@ ul.tag-tree {
     &:first-child {
       white-space: nowrap;
     }
-    
+
     .cell-message {
       word-wrap: break-word;
     }
@@ -191,8 +273,11 @@ ul.tag-tree {
 
 // File thumbnails
 .thumbnail {
+  border: 1px solid #e9ecef;
+  
   &.active {
-    border: 1px solid #2ab2dc;
+    border: 2px solid #6f42c1;
+    box-shadow: 0 0 0 0.1rem rgba(111, 66, 193, 0.25);
   }
 
   .file-processing-indicator {
@@ -200,14 +285,14 @@ ul.tag-tree {
     z-index: 2;
     margin-left: 8px;
     margin-top: 8px;
-    color: #2ab2dc;
+    color: #6f42c1;
   }
 
   a.file-thumbnail {
     height: 200px;
     display: block;
     overflow: hidden;
-    background: #eee;
+    background: #f8f9fa;
   }
 
   .file-name {
@@ -215,6 +300,7 @@ ul.tag-tree {
     word-wrap: break-word;
     white-space: normal;
     text-overflow: ellipsis;
+    color: #2d3748;
   }
 
   .file-info {
@@ -247,6 +333,7 @@ ul.tag-tree {
 .table-files {
   td {
     vertical-align: middle !important;
+    color: #2d3748;
   }
 
   .thumbnail-list {
@@ -312,6 +399,16 @@ input[readonly].share-link {
 // Pagination
 .pagination > .active > a {
   cursor: pointer !important;
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.pagination > li > a {
+  color: #6f42c1;
+  
+  &:hover, &:focus {
+    color: #5a339a;
+  }
 }
 
 // Pagination box
@@ -325,7 +422,7 @@ input[readonly].share-link {
 }
 
 .nav-text-error {
-  color: #b94a48 !important;
+  color: #dc3545 !important;
 }
 
 // Comments
@@ -343,18 +440,24 @@ input[readonly].share-link {
 .upload-zone {
   min-height: 150px;
   background: none;
-  border: 2px dashed #eee;
+  border: 2px dashed #e9ecef;
   padding-top: 15px;
   padding-bottom: 15px;
   margin-bottom: 15px;
+  
+  &:hover {
+    border-color: #6f42c1;
+    background-color: #f8f9fa;
+  }
 }
 
 .bg-success {
-  background-color: #dff0d8;
+  background-color: #d4edda;
+  color: #155724;
 }
 
 .thumbnail-checked {
-  box-shadow: inset 0 1px 2px rgba(27,31,35,0.075), 0 0 0 0.2em rgba(3,102,214,0.3);
+  box-shadow: inset 0 1px 2px rgba(27,31,35,0.075), 0 0 0 0.2em rgba(111, 66, 193, 0.3);
   transition: box-shadow ease-in-out .15s;
 }
 
@@ -406,27 +509,30 @@ input[readonly].share-link {
 // Settings
 .settings-menu {
   .panel-default {
-    border: 1px solid #eee;
-    box-shadow: 0 7px 14px 0 rgba(50,50,93,.1), 0 3px 6px 0 rgba(0,0,0,.07);
-    border-radius: 4px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0.375rem;
 
     & > .panel-heading {
       border-bottom: none;
-      background: #f9f9f9;
+      background: #f8f9fa;
 
       strong {
         font-weight: 500;
+        color: #6f42c1;
       }
     }
 
     .list-group-item {
       border: none;
+      color: #2d3748;
     }
 
     .list-group-item.active {
-      background: none;
-      color: #337ab7;
+      background: #f3f0ff;
+      color: #6f42c1;
       font-weight: 500;
+      border-left: 3px solid #6f42c1;
     }
   }
 }
@@ -435,10 +541,11 @@ input[readonly].share-link {
   margin-bottom: 10px;
 
   .well {
-    box-shadow: 0 7px 14px 0 rgba(50,50,93,.1), 0 3px 6px 0 rgba(0,0,0,.07);
-    background: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    background: #ffffff;
     padding: 0;
-    border-radius: 4px;
+    border-radius: 0.375rem;
+    border: 1px solid #e9ecef;
 
     .table {
       margin-bottom: 0;
@@ -447,9 +554,10 @@ input[readonly].share-link {
     th {
       text-transform: uppercase;
       font-weight: 500;
-      background-color: #f6f9fc;
-      border-bottom: 1px solid #ddd;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
       font-size: 90%;
+      color: #6f42c1;
     }
   }
 }
@@ -461,20 +569,20 @@ input[readonly].share-link {
   right: 0;
   top: 200px;
   transform: rotate(-90deg) translateY(-100%);
-  background: #ccc;
+  background: #6f42c1;
   padding: 8px;
   color: #fff;
   font-weight: bold;
   transform-origin: 100% 0;
 
   &:hover {
-    background: #aaa;
+    background: #5a339a;
     text-decoration: none;
     color: #fff;
   }
 
   &:active {
-    background: #444;
+    background: #4c2a85;
   }
 
   &:active, &:focus {
@@ -554,8 +662,14 @@ input[readonly].share-link {
 }
 
 .login-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  
   .btn-password-lost {
     padding-bottom: 0;
+    color: #6f42c1;
   }
 
   form .row .col-md-6 {
@@ -563,12 +677,21 @@ input[readonly].share-link {
   }
 
   .btn-primary {
-    background-color: #2aabd2;
-    border-color: transparent;
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    
+    &:hover, &:focus, &:active {
+      background-color: #5a339a;
+      border-color: #5a339a;
+    }
   }
 
   .img-responsive {
     margin-bottom: 30px;
+  }
+  
+  h1, h2, h3 {
+    color: #6f42c1;
   }
 }
 
@@ -577,8 +700,8 @@ input[readonly].share-link {
   margin: 0;
   padding: 0;
   z-index: 99998;
-  background-color: green;
-  color: green;
+  background-color: #6f42c1;
+  color: #6f42c1;
   box-shadow: 0 0 10px 0; /* Inherits the font color */
   height: 2px;
   opacity: 0;
@@ -659,26 +782,30 @@ input[readonly].share-link {
 .btn {
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
   font-weight: 500;
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px rgba(50,50,93,.1), 0 2px 5px 0 rgba(50,50,93,.08), 0 1px 1.5px 0 rgba(0,0,0,.07), 0 1px 2px 0 rgba(0,0,0,.08), 0 0 0 0 transparent;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .form-control {
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px rgba(49,49,93,.03), 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
+  border-radius: 0.375rem;
+  border: 1px solid #ced4da;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+  color: #2d3748;
+  
+  &:focus {
+    border-color: #6f42c1;
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+  }
 }
 
 .dropdown-menu {
-  border: none;
-  box-shadow: 0 0 0 1px rgba(136,152,170,.1), 0 15px 35px 0 rgba(49,49,93,.1), 0 5px 15px 0 rgba(0,0,0,.13);
+  border: 1px solid #e9ecef;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.375rem;
 }
 
 .navbar-default {
   border: none;
-
-  .navbar-brand {
-    color: white;
-  }
 }
 
 .navbar-brand {
@@ -690,24 +817,18 @@ input[readonly].share-link {
   font-weight: 500;
 }
 
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  color: #2ab2dc;
-  background: none;
-}
-
 .well-3d {
-  border: 1px solid #eee;
-  box-shadow: 0 7px 14px 0 rgba(50,50,93,.1), 0 3px 6px 0 rgba(0,0,0,.07);
-  background: none;
-  border-radius: 4px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  background: #ffffff;
+  border-radius: 0.375rem;
 
   .well-3d-header {
     font-size: 20px;
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 19px;
+    color: #6f42c1;
   }
 
   table {
@@ -724,6 +845,7 @@ input[readonly].share-link {
 
   .fas {
     font-size: 15vw;
+    color: #6f42c1;
   }
 }
 
@@ -733,9 +855,10 @@ input[readonly].share-link {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25em;
-  padding: 1.25em;
+  border: 1px solid #e9ecef;
+  border-radius: 0.375rem;
+  padding: 1.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 // Home widgets
@@ -750,4 +873,39 @@ input[readonly].share-link {
   width: 0;
   padding-left: 0;
   padding-right: 0;
+}
+
+// Custom violet page styles
+.custom-page {
+  background: linear-gradient(135deg, #6f42c1 0%, #8b5cf6 100%);
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .custom-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 600px;
+    
+    h1 {
+      color: #6f42c1;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    
+    p {
+      color: #6c757d;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .btn {
+      margin: 0.5rem;
+    }
+  }
 }

@@ -57,8 +57,18 @@ public class ThemeResource extends BaseResource {
 
         // Build the stylesheet
     	StringBuilder sb = new StringBuilder();
+    	String themeColor = themeConfig.getString("color", "#6f42c1");
     	sb.append(new Selector(".navbar")
-            .rule("background-color", themeConfig.getString("color", "#ffffff")));
+            .rule("background-color", themeColor));
+        // Add additional violet theme styles
+        sb.append(new Selector(".btn-primary")
+            .rule("background-color", themeColor)
+            .rule("border-color", themeColor));
+        sb.append(new Selector("a")
+            .rule("color", themeColor));
+        sb.append(new Selector(".pagination > .active > a")
+            .rule("background-color", themeColor)
+            .rule("border-color", themeColor));
         sb.append(themeConfig.getString("css", ""));
 
         return Response.ok().entity(sb.toString()).build();
@@ -83,7 +93,7 @@ public class ThemeResource extends BaseResource {
         JsonObject themeConfig = getThemeConfig();
         JsonObjectBuilder json = Json.createObjectBuilder();
         json.add("name", themeConfig.getString("name", "Boveda"));
-        json.add("color", themeConfig.getString("color", "#ffffff"));
+        json.add("color", themeConfig.getString("color", "#6f42c1"));
         json.add("css", themeConfig.getString("css", ""));
         return Response.ok().entity(json.build()).build();
     }

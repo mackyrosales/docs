@@ -417,6 +417,15 @@ angular.module('docs',
           controller: 'GroupProfile'
         }
       }
+    })
+    .state('custompage', {
+      url: '/custompage',
+      views: {
+        'page': {
+          templateUrl: 'partial/docs/custompage.html',
+          controller: 'CustomPage'
+        }
+      }
     });
 
   // Configuring Restangular
