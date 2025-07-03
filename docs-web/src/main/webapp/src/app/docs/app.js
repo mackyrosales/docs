@@ -426,6 +426,15 @@ angular.module('docs',
           controller: 'CustomPage'
         }
       }
+    })
+    .state('ocreta', {
+      url: '/ocreta',
+      views: {
+        'page': {
+          templateUrl: 'partial/docs/ocreta.html',
+          controller: 'OcrEtaPage'
+        }
+      }
     });
 
   // Configuring Restangular

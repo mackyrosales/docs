@@ -99,6 +99,7 @@
     <script src="app/docs/controller/usergroup/UserProfile.js" type="text/javascript"></script>
     <script src="app/docs/controller/usergroup/GroupProfile.js" type="text/javascript"></script>
     <script src="app/docs/controller/CustomPage.js" type="text/javascript"></script>
+    <script src="app/docs/controller/OcrEtaPage.js" type="text/javascript"></script>
     <script src="app/docs/service/User.js" type="text/javascript"></script>
     <script src="app/docs/filter/Filesize.js" type="text/javascript"></script>
     <script src="app/docs/directive/SelectTag.js" type="text/javascript"></script>
@@ -146,7 +147,10 @@
             <a href="#/user"><span class="fas fa-user"></span> {{ 'index.nav_users_groups' | translate }}</a>
           </li>
           <li ui-sref-active="{ active: 'custompage' }">
-            <a href="#/custompage"><span class="fas fa-star"></span> Custom Page</a>
+            <a href="#/custompage"><span class="fas fa-chart-bar"></span> Dashboard</a>
+          </li>
+          <li ui-sref-active="{ active: 'ocreta' }">
+            <a href="#/ocreta"><span class="fas fa-file-alt"></span>OCR</a>
           </li>
         </ul>
 

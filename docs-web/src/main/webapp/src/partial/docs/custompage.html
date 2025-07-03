@@ -1,78 +1,457 @@
-<div class="custom-page">
-  <div class="custom-content">
+<div class="dashboard-page">
+  <div class="dashboard-header">
     <h1>{{ pageTitle }}</h1>
     <p>{{ pageDescription }}</p>
     
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card">
-          <h3><i class="fas fa-magic"></i> Customizable</h3>
-          <p>This page can be customized to fit your specific needs and requirements.</p>
+    <div class="dashboard-actions">
+      <button class="btn btn-primary" ng-click="refreshDashboard()">
+        <i class="fas fa-sync-alt"></i> Refresh Dashboard
+      </button>
+    </div>
+  </div>
+  
+  <!-- Key Statistics -->
+  <div class="row stats-row">
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.totalDocuments }}</div>
+          <div class="stat-label">Total Documents</div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <h3><i class="fas fa-palette"></i> Beautiful Design</h3>
-          <p>Featuring a modern violet and white theme that's easy on the eyes.</p>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-hdd"></i></div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.totalStorage }}</div>
+          <div class="stat-label">Storage Used</div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <h3><i class="fas fa-rocket"></i> Fast & Responsive</h3>
-          <p>Built with performance and responsiveness in mind for all devices.</p>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-cogs"></i></div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.processedToday }}</div>
+          <div class="stat-label">Processed Today</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stats.pendingReviews }}</div>
+          <div class="stat-label">Pending Reviews</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts and Activity -->
+  <div class="row dashboard-content">
+    <div class="col-md-8">
+      <!-- Document Processing Status -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-chart-pie"></i> Document Processing Status</h3>
+        </div>
+        <div class="panel-body">
+          <div class="progress-stats">
+            <div class="progress-item">
+              <div class="progress-label">
+                <span>Completed</span>
+                <span class="progress-value">{{ processingStatus.completed }}%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-success" ng-style="{ width: processingStatus.completed + '%' }">
+                  <span class="sr-only">{{processingStatus.completed}}% Completed</span>
+                </div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label">
+                <span>In Progress</span>
+                <span class="progress-value">{{ processingStatus.inProgress }}%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-primary" ng-style="{ width: processingStatus.inProgress + '%' }">
+                  <span class="sr-only">{{processingStatus.inProgress}}% In Progress</span>
+                </div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label">
+                <span>Queued</span>
+                <span class="progress-value">{{ processingStatus.queued }}%</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-warning" ng-style="{ width: processingStatus.queued + '%' }">
+                  <span class="sr-only">{{processingStatus.queued}}% Queued</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Document Type Distribution Chart -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-chart-bar"></i> Document Type Distribution</h3>
+        </div>
+        <div class="panel-body">
+          <div class="chart-container">
+            <div class="mock-chart">
+              <div class="chart-bars">
+                <div ng-repeat="item in documentTypeData" class="chart-bar">
+                  <div class="chart-bar-value" ng-style="{ height: (item.value / (documentTypeData | sumByKey:'value') * 100) + '%' }">{{ item.value }}</div>
+                  <div class="chart-bar-label">{{ item.label }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     
-    <div class="mt-30">
-      <button class="btn btn-primary btn-lg" ng-click="customAction()">
-        <i class="fas fa-star"></i> Try Custom Action
-      </button>
-      <a href="#/document" class="btn btn-outline-secondary btn-lg">
-        <i class="fas fa-arrow-left"></i> Back to Documents
-      </a>
+    <div class="col-md-4">
+      <!-- Recent Activity -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-history"></i> Recent Activity</h3>
+        </div>
+        <div class="panel-body">
+          <div class="activity-list">
+            <div ng-repeat="activity in recentActivity" class="activity-item">
+              <div class="activity-icon" ng-class="activity.type">
+                <i ng-if="activity.type == 'upload'" class="fas fa-upload"></i>
+                <i ng-if="activity.type == 'edit'" class="fas fa-edit"></i>
+                <i ng-if="activity.type == 'share'" class="fas fa-share-alt"></i>
+                <i ng-if="activity.type == 'delete'" class="fas fa-trash"></i>
+                <i ng-if="activity.type == 'ocr'" class="fas fa-file-alt"></i>
+                <i ng-if="activity.type == 'comment'" class="fas fa-comment"></i>
+                <i ng-if="activity.type == 'tag'" class="fas fa-tag"></i>
+                <i ng-if="activity.type == 'document'" class="fas fa-file"></i>
+                <i ng-if="activity.type == 'file'" class="fas fa-upload"></i>
+                <i ng-if="!['upload','edit','share','delete','ocr','comment','tag','document','file'].includes(activity.type)" class="fas fa-cog"></i>
+              </div>
+              <div class="activity-details">
+                <div class="activity-title">
+                  <strong>{{ activity.user }}</strong> 
+                  <span ng-if="activity.type == 'upload'">uploaded</span>
+                  <span ng-if="activity.type == 'edit'">edited</span>
+                  <span ng-if="activity.type == 'share'">shared</span>
+                  <span ng-if="activity.type == 'delete'">deleted</span>
+                  <span ng-if="activity.type == 'ocr'">processed</span>
+                  <span ng-if="activity.type == 'comment'">commented on</span>
+                  <span ng-if="activity.type == 'tag'">tagged</span>
+                  <span ng-if="activity.type == 'document'">created</span>
+                  <span ng-if="activity.type == 'file'">uploaded file to</span>
+                  <span ng-if="!['upload','edit','share','delete','ocr','comment','tag','document','file'].includes(activity.type)">modified</span>
+                  <strong>{{ activity.document }}</strong>
+                </div>
+                <div class="activity-time">{{ activity.time }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Links -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-link"></i> Quick Actions</h3>
+        </div>
+        <div class="panel-body">
+          <div class="quick-links">
+            <a href="#/document/add" class="btn btn-primary btn-block">
+              <i class="fas fa-plus"></i> Add Document
+            </a>
+            <a href="#/settings/workflow" class="btn btn-secondary btn-block">
+              <i class="fas fa-tasks"></i> Manage Workflows
+            </a>
+            <a href="#/ocreta" class="btn btn-secondary btn-block">
+              <i class="fas fa-file-alt"></i> OCR Processing
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-.card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-  border: 1px solid #e9ecef;
-  text-align: center;
-  
-  h3 {
-    color: #6f42c1;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-  }
-  
-  h3 i {
-    margin-right: 0.5rem;
-    font-size: 1.5rem;
-  }
-  
-  p {
-    color: #6c757d;
-    margin-bottom: 0;
-    line-height: 1.5;
-  }
+.dashboard-page {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 80px);
 }
 
-.btn-outline-secondary {
+.dashboard-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
   color: #6f42c1;
-  border-color: #6f42c1;
-  background-color: transparent;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
 }
 
-.btn-outline-secondary:hover {
-  color: white;
+.dashboard-header p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  max-width: 800px;
+}
+
+.dashboard-actions {
+  margin-top: 15px;
+}
+
+.stats-row {
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border-left: 4px solid #6f42c1;
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: #6f42c1;
+  margin-right: 15px;
+  width: 40px;
+  text-align: center;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.stat-label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.dashboard-panel {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.panel-header h3 {
+  color: #6f42c1;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.panel-header h3 i {
+  margin-right: 10px;
+}
+
+.panel-body {
+  padding: 20px;
+}
+
+/* Mock Chart Styles */
+.chart-container {
+  height: 250px;
+  position: relative;
+}
+
+.mock-chart {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.chart-bars {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 100%;
+  width: 100%;
+}
+
+.chart-bar {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-bar-value {
   background-color: #6f42c1;
-  border-color: #6f42c1;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.5s ease;
+  min-height: 30px;
+}
+
+.chart-bar-label {
+  margin-top: 10px;
+  color: #6c757d;
+}
+
+/* Progress Bars */
+.progress-stats {
+  margin-bottom: 20px;
+}
+
+.progress-item {
+  margin-bottom: 20px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progress {
+  height: 10px;
+  border-radius: 5px;
+  background-color: #e9ecef;
+}
+
+.progress-bar {
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.bg-primary {
+  background-color: #6f42c1 !important;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+}
+
+/* Activity List */
+.activity-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.activity-icon.upload {
+  background-color: #d4edda;
+  color: #28a745;
+}
+
+.activity-icon.edit {
+  background-color: #e7f5ff;
+  color: #0d6efd;
+}
+
+.activity-icon.share {
+  background-color: #f3f0ff;
+  color: #6f42c1;
+}
+
+.activity-icon.delete {
+  background-color: #f8d7da;
+  color: #dc3545;
+}
+
+.activity-icon.ocr {
+  background-color: #fff3cd;
+  color: #ffc107;
+}
+
+.activity-details {
+  flex: 1;
+}
+
+.activity-title {
+  font-size: 0.9rem;
+  margin-bottom: 3px;
+}
+
+.activity-time {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Quick Links */
+.quick-links .btn {
+  margin-bottom: 10px;
+  text-align: left;
+  padding: 12px 15px;
+}
+
+.quick-links .btn i {
+  margin-right: 10px;
+}
+
+.btn-secondary {
+  background-color: #f8f9fa;
+  border-color: #e9ecef;
+  color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+  color: #495057;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-row .col-md-3 {
+    margin-bottom: 15px;
+  }
 }
 </style>
 
