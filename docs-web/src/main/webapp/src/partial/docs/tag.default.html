@@ -1,6 +1,45 @@
-<h1>{{ 'tag.default.title' | translate }}</h1>
-<p translate="tag.default.message_1"></p>
-<p translate="tag.default.message_2"></p>
-<p translate="tag.default.message_3"></p>
-<p translate="tag.default.message_4"></p>
-<p translate="tag.default.message_5"></p>
+<div class="teedy-page">
+  <div class="teedy-header">
+    <h1><i class="fas fa-tags"></i> {{ 'tag.default.title' | translate }}</h1>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-info-circle"></i> {{ 'tag.default.about' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+          <p translate="tag.default.message_1" class="mb-3"></p>
+          <p translate="tag.default.message_2" class="mb-3"></p>
+          <p translate="tag.default.message_3" class="mb-3"></p>
+          <p translate="tag.default.message_4" class="mb-3"></p>
+          <p translate="tag.default.message_5"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-layer-group"></i> {{ 'tag.default.tag_list' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+          <div class="tag-grid">
+            <div ng-repeat="tag in tags" class="tag-item">
+              <span class="teedy-tag" ng-style="{ 'background': tag.color }">
+                {{ tag.name }}
+                <span class="tag-count">{{ tag.count }}</span>
+              </span>
+            </div>
+            <div ng-if="tags.length === 0" class="text-muted">
+              {{ 'tag.default.no_tags' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

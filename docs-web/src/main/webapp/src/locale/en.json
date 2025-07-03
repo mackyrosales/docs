@@ -257,13 +257,21 @@
     }
   },
   "usergroup": {
-    "search_groups": "Search in groups",
-    "search_users": "Search in users",
     "you": "It's you!",
     "default": {
       "title": "Users & Groups",
       "message": "Here you can view informations about users and groups."
-    }
+    },
+    "description": "Here you can view information about users and groups in the system.",
+    "users": "Users",
+    "groups": "Groups",
+    "select_user_group": "Select a user or group from the list",
+    "no_users": "No users found",
+    "no_groups": "No groups found",
+    "search_users": "Search users",
+    "search_groups": "Search groups",
+    "search_in_users": "Search in users",
+    "search_in_groups": "Search in groups"
   },
   "settings": {
     "menu_personal_settings": "Personal settings",
@@ -507,7 +515,7 @@
     }
   },
   "feedback": {
-    "title": "Give us a feedback",
+    "title": "Feedback",
     "message": "Any suggestion or question about Boveda? We listen to you!",
     "sent_title": "Feedback sent",
     "sent_message": "Thank you for your feedback! It will help us make Boveda even better."

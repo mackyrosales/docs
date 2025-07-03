@@ -1,9 +1,7 @@
 package com.sismics.docs.core.util;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
-import com.sismics.docs.core.constant.Constants;
 import com.sismics.docs.core.dao.FileDao;
 import com.sismics.docs.core.dao.UserDao;
 import com.sismics.docs.core.event.DocumentUpdatedAsyncEvent;
@@ -126,22 +124,12 @@ public class FileUtil {
             throw new IOException("ErrorGuessMime", e);
         }
 
-        // Validate user quota
+        // Get user data (quota validation removed - unlimited storage)
         UserDao userDao = new UserDao();
         User user = userDao.getById(userId);
-        if (user.getStorageCurrent() + fileSize > user.getStorageQuota()) {
-            throw new IOException("QuotaReached");
-        }
-
-        // Validate global quota
-        String globalStorageQuotaStr = System.getenv(Constants.GLOBAL_QUOTA_ENV);
-        if (!Strings.isNullOrEmpty(globalStorageQuotaStr)) {
-            long globalStorageQuota = Long.parseLong(globalStorageQuotaStr);
-            long globalStorageCurrent = userDao.getGlobalStorageCurrent();
-            if (globalStorageCurrent + fileSize > globalStorageQuota) {
-                throw new IOException("QuotaReached");
-            }
-        }
+        
+        // No quota validation - unlimited storage
+        // Global quota validation removed
 
         // Prepare the file
         File file = new File();

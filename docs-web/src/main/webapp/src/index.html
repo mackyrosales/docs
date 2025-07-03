@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="style/pell.css" type="text/css" />
     <link rel="stylesheet" href="style/ng-onboarding.css" type="text/css" />
     <link rel="stylesheet/less" href="style/main.less" type="text/css" />
+    <link rel="stylesheet" href="style/teedy-modern.css" type="text/css" />
+    <link rel="stylesheet" href="style/ocr-page.css" type="text/css" />
     <!-- endref -->
     <link rel="stylesheet" href="../api/theme/stylesheet" type="text/css" id="theme-stylesheet" />
     <!-- ref:remove -->
@@ -129,9 +131,9 @@
 
         <a class="navbar-brand" href="#">
           <span ng-if="appName == 'Boveda'">
-            <span style="color: #02c9ad;">{{ appName }}</span>
+            <span class="brand-name-boveda">{{ appName }}</span>
           </span>
-          <span ng-if="appName != 'Boveda'" style="color: #888;">{{ appName }}</span>
+          <span ng-if="appName != 'Boveda'" class="brand-name-other">{{ appName }}</span>
         </a>
       </div>
 

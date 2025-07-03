@@ -1,53 +1,70 @@
-<div class="row">
-  <div class="col-md-4">
-    <div class="well well-3d">
-      <p class="input-group">
-        <span class="input-group-addon"><span class="fas fa-search"></span></span>
-        <input type="search" class="form-control" ng-attr-placeholder="{{ 'usergroup.search_groups' | translate }}" ng-model="searchGroup">
-      </p>
-
-      <table class="row table table-hover">
-        <tbody>
-        <tr class="pointer" ng-repeat="group in groups | filter: searchGroup"
-            ng-click="openGroup(group)" ng-class="{ active: $stateParams.name == group.name }">
-          <td class="col-xs-4">
-            {{ group.name }}
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div class="well-3d-background">
-        <span class="fas fa-users"></span>
-      </div>
-    </div>
-
-    <div class="well well-3d">
-      <p class="input-group">
-        <span class="input-group-addon"><span class="fas fa-search"></span></span>
-        <input type="search" class="form-control" ng-attr-placeholder="{{ 'usergroup.search_users' | translate }}" ng-model="searchUser">
-      </p>
-
-      <table class="row table table-hover">
-        <tbody>
-        <tr class="pointer" ng-repeat="user in users | filter: searchUser"
-            ng-click="openUser(user)" ng-class="{ active: $stateParams.username == user.username }">
-          <td class="col-xs-4">
-            <span class="fas fa-user"></span>
-            {{ user.username }}
-            <span class="text-muted" ng-if="userInfo.username == user.username">{{ 'usergroup.you' | translate }}</span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div class="well-3d-background">
-        <span class="fas fa-user"></span>
-      </div>
-    </div>
+<div class="teedy-page">
+  <div class="teedy-header">
+    <h1><i class="fas fa-users"></i> {{ 'index.nav_users_groups' | translate }}</h1>
+    <p class="text-muted">{{ 'usergroup.description' | translate }}</p>
   </div>
 
-  <div class="col-md-8">
-    <div ui-view="sub"></div>
+  <div class="row">
+    <div class="col-md-4">
+      <!-- Groups Panel -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-user-friends"></i> {{ 'usergroup.groups' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+          <div class="teedy-search mb-3">
+            <input type="search" class="form-control" ng-attr-placeholder="{{ 'usergroup.search_groups' | translate }}" ng-model="searchGroup">
+            <i class="search-icon fas fa-search"></i>
+          </div>
+
+          <div class="list-group">
+            <a href class="list-group-item" ng-repeat="group in groups | filter: searchGroup"
+              ng-click="openGroup(group)" ng-class="{ active: $stateParams.name == group.name }">
+              <i class="fas fa-users me-2"></i> {{ group.name }}
+            </a>
+            <div class="list-group-item text-muted text-center" ng-if="(groups | filter: searchGroup).length === 0">
+              {{ 'usergroup.no_groups' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Panel -->
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-user"></i> {{ 'usergroup.users' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+          <div class="teedy-search mb-3">
+            <input type="search" class="form-control" ng-attr-placeholder="{{ 'usergroup.search_users' | translate }}" ng-model="searchUser">
+            <i class="search-icon fas fa-search"></i>
+          </div>
+
+          <div class="list-group">
+            <a href class="list-group-item" ng-repeat="user in users | filter: searchUser"
+              ng-click="openUser(user)" ng-class="{ active: $stateParams.username == user.username }">
+              <i class="fas fa-user me-2"></i> 
+              {{ user.username }}
+              <span class="badge badge-primary" ng-if="userInfo.username == user.username">{{ 'usergroup.you' | translate }}</span>
+            </a>
+            <div class="list-group-item text-muted text-center" ng-if="(users | filter: searchUser).length === 0">
+              {{ 'usergroup.no_users' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <!-- User or Group Details Panel -->
+      <div class="dashboard-panel" ng-if="!$state.includes('user.**') && !$state.includes('group.**')">
+        <div class="panel-body text-center">
+          <i class="fas fa-hand-point-left fa-3x text-muted mb-3"></i>
+          <p class="lead text-muted">{{ 'usergroup.select_user_group' | translate }}</p>
+        </div>
+      </div>
+      
+      <div ui-view="sub"></div>
+    </div>
   </div>
 </div>

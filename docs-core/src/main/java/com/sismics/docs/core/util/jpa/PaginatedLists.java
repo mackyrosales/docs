@@ -17,7 +17,7 @@ public class PaginatedLists {
     /**
      * Maximum size of a page.
      */
-    private static final int MAX_PAGE_SIZE = 100;
+    private static final int MAX_PAGE_SIZE = Integer.MAX_VALUE;
 
     /**
      * Constructs a paginated list.

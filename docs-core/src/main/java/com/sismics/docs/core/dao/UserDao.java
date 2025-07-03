@@ -85,6 +85,8 @@ public class UserDao {
         user.setPassword(hashPassword(user.getPassword()));
         user.setPrivateKey(EncryptionUtil.generatePrivateKey());
         user.setStorageCurrent(0L);
+        // Set unlimited storage quota (Long.MAX_VALUE)
+        user.setStorageQuota(Long.MAX_VALUE);
         em.persist(user);
         
         // Create audit log

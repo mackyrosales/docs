@@ -1,60 +1,40 @@
-<div class="ocr-eta-page">
-  <div class="ocr-eta-header">
-    <h1><i class="fas fa-file-alt"></i> OCR</h1>
-    <p>Document extraction and processing via Form Extraction</p>
+<div class="ocr-container">
+  <div class="ocr-header">
+    <div class="ocr-title-section">
+      <h1 class="ocr-title"><i class="fas fa-file-alt"></i> OCR Form Extraction</h1>
+      <p class="text-muted">Extract and process documents using Form Extraction technology</p>
+    </div>
+    <div class="ocr-actions">
+      <a href="#/document" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to Documents</a>
+      <a href="#" class="btn btn-secondary" ng-click="refreshOcr()"><i class="fas fa-sync"></i> Refresh</a>
+    </div>
+  </div>
+
+  <div class="ocr-instructions">
+    <div class="ocr-instructions-header" ng-click="showInstructions = !showInstructions">
+      <h4><i class="fas" ng-class="{'fa-chevron-down': !showInstructions, 'fa-chevron-up': showInstructions}"></i> How to use OCR Form Extraction</h4>
+    </div>
+    <div class="ocr-instructions-content" ng-show="showInstructions">
+      <ul>
+        <li>Upload document files by clicking on the upload button or dragging and dropping</li>
+        <li>Wait for the processing to complete</li>
+        <li>Review the extracted data</li>
+        <li>Download or export results as needed</li>
+      </ul>
+    </div>
   </div>
   
-  <div class="ocr-eta-content">
-    <div class="iframe-container">
-      <iframe ng-src="{{ocrEtaUrl}}" frameborder="0" title="OCR Form Extraction Tool" ng-init="loadOcrEta()" allow="camera; microphone; fullscreen; display-capture"></iframe>
+  <div class="ocr-iframe-container">
+    <div class="ocr-loading" ng-if="loading">
+      <div class="spinner"></div>
+      <p>Loading OCR tool...</p>
     </div>
+    <iframe class="ocr-iframe" ng-src="{{ocrEtaUrl}}" frameborder="0" title="OCR Form Extraction Tool" 
+      ng-init="loadOcrEta()" ng-class="{'loaded': !loading}"
+      allow="camera; microphone; fullscreen; display-capture"
+      onload="angular.element(this).scope().iframeLoaded()"></iframe>
   </div>
 </div>
 
-<style>
-.ocr-eta-page {
-  background: white;
-  min-height: calc(100vh - 80px);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
-
-.ocr-eta-header {
-  margin-bottom: 20px;
-}
-
-.ocr-eta-header h1 {
-  color: #6f42c1;
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.ocr-eta-header p {
-  color: #6c757d;
-  font-size: 1.1rem;
-}
-
-.ocr-eta-content {
-  flex: 1;
-}
-
-.iframe-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: calc(100vh - 180px);
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.iframe-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-</style>
+<!-- Link to our external OCR stylesheet -->
+<link rel="stylesheet" href="style/ocr-page.css">

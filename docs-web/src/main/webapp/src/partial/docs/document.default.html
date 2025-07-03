@@ -1,119 +1,132 @@
-<div class="well well-3d" style="background-color: #f6f9fc" id="quick-upload-zone">
-  <div class="pull-right" ng-show="files.length > 0">
-    <a href class="btn btn-default" ng-init="selectAll = true" ng-click="changeChecked(selectAll); selectAll = !selectAll">
-      <span class="far" ng-class="{ 'fa-check-square': selectAll, 'fa-square': !selectAll }"></span>
-      {{ selectAll ? 'document.default.select_all' : 'document.default.select_none' | translate }}
-    </a>
+<div class="teedy-page">
+  <div class="teedy-header">
+    <h1><i class="fas fa-book"></i> {{ 'index.nav_documents' | translate }}</h1>
+    <p class="text-muted">{{ 'document.default.search_tip' | translate }}</p>
   </div>
-  <h3 class="well-3d-header text-muted">
-    {{ 'document.default.quick_upload' | translate }}
-  </h3>
+  
+  <div class="teedy-actions">
+    <button class="btn btn-primary" ng-show="checkedFiles().length > 0" ng-click="addDocument()">
+      <i class="fas fa-plus"></i> {{ 'document.default.add_new_document' | translate }}
+    </button>
 
-  <div class="row upload-zone"
-       ngf-drop="fileDropped($files)"
-       ngf-drag-over-class="'bg-success'"
-       ngf-multiple="true"
-       ngf-allow-dir="false">
-    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 text-center" ng-repeat="file in files">
-      <div class="thumbnail" ng-class="{ 'thumbnail-checked': file.checked }" ng-if="file.id">
-        <a class="file-thumbnail" ng-click="openFile(file)">
-          <img ng-src="../api/file/{{ file.id }}/data?size=thumb" uib-tooltip="{{ file.mimetype }} | {{ file.size | filesize }}" tooltip-placement="top" />
+    <button class="btn btn-default" ng-show="checkedFiles().length == 0" 
+            ngf-select ngf-change="fileDropped($files, $event)" 
+            input-file-multiple="multiple" ngf-multiple="true">
+      <i class="fas fa-file-upload"></i> {{ 'document.default.add_files' | translate }}
+    </button>
+  </div>
+
+  <div class="dashboard-panel" id="quick-upload-zone">
+    <div class="panel-header">
+      <div class="pull-right" ng-show="files.length > 0">
+        <a href class="btn btn-default" ng-init="selectAll = true" ng-click="changeChecked(selectAll); selectAll = !selectAll">
+          <span class="far" ng-class="{ 'fa-check-square': selectAll, 'fa-square': !selectAll }"></span>
+          {{ selectAll ? 'document.default.select_all' : 'document.default.select_none' | translate }}
         </a>
-        <div class="file-info">
-          <div class="v-align">
-            <button class="btn btn-danger" ng-click="deleteFile($event, file)"><span class="fas fa-trash"></span></button>
-          </div>
-          <div class="v-align file-name" ng-if="file.name">{{ file.name }}</div>
-          <div class="v-align">
-            <input type="checkbox" ng-model="file.checked" />
-          </div>
-        </div>
       </div>
-
-      <div class="thumbnail" ng-if="!file.id">
-        <p class="text-center lead">
-          {{ file.status }}
-        </p>
-        <div class="caption">
-          <uib-progressbar value="file.progress" class="progress-info active"></uib-progressbar>
-        </div>
-      </div>
+      <h3><i class="fas fa-cloud-upload-alt"></i> {{ 'document.default.quick_upload' | translate }}</h3>
     </div>
 
-    <p class="text-center well-lg text-muted" ng-if="files.length == 0">
-      <span class="fas fa-arrows-alt"></span>
-      {{ 'document.default.drop_zone' | translate }}
-    </p>
-  </div>
-
-  <p class="text-center">
-    <button ng-show="checkedFiles().length > 0"
-            class="btn btn-primary"
-            ng-click="addDocument()">
-      <span class="fas fa-plus"></span> {{ 'document.default.add_new_document' | translate }}
-    </button>
-
-    <button ng-show="checkedFiles().length == 0"
-            class="btn btn-default"
-            ngf-select
-            ngf-change="fileDropped($files, $event)"
-            input-file-multiple="multiple"
-            ngf-multiple="true">
-      {{ 'document.default.add_files' | translate }}
-    </button>
-  </p>
-</div>
-
-<div class="row widgets">
-  <div class="col-md-12" ng-show="documentsWorkflow && documentsWorkflow.length > 0">
-    <div class="well well-3d" style="background-color: #fff4f4;">
-      <h3 class="well-3d-header text-muted">
-        <span class="fas fa-exclamation-triangle text-danger"></span>
-        {{ 'document.default.workflow_document_list' | translate }}
-      </h3>
-
-      <table class="row table table-hover table-documents">
-        <thead>
-        <tr>
-          <th class="col-xs-6">{{ 'document.title' | translate }}</th>
-          <th class="col-xs-3">{{ 'document.current_step_name' | translate }}</th>
-          <th class="col-xs-3">{{ 'document.creation_date' | translate }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-click="viewDocument(document.id)" ng-repeat="document in documentsWorkflow">
-          <td>
-            {{ document.title }} ({{ document.file_count }})
-            <div class="tags small">
-              <span class="label label-info" ng-repeat="tag in document.tags" ng-style="{ 'background': tag.color }">
-                {{ tag.name }}
-              </span>
+    <div class="panel-body">
+      <div class="row upload-zone"
+          ngf-drop="fileDropped($files)"
+          ngf-drag-over-class="'bg-success'"
+          ngf-multiple="true"
+          ngf-allow-dir="false">
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 text-center" ng-repeat="file in files">
+          <div class="file-card" ng-class="{ 'active': file.checked }" ng-if="file.id">
+            <div class="file-thumbnail">
+              <a ng-click="openFile(file)">
+                <img ng-src="../api/file/{{ file.id }}/data?size=thumb" uib-tooltip="{{ file.mimetype }} | {{ file.size | filesize }}" tooltip-placement="top" alt="{{ file.name || 'File thumbnail' }}" title="{{ file.name || 'File thumbnail' }}" />
+              </a>
             </div>
-          </td>
-          <td>{{ document.current_step_name }}</td>
-          <td>
-            <div class="text-muted small">{{ document.create_date | timeAgo: dateFormat }}</div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            <div class="file-info">
+              <div class="file-name" ng-if="file.name" title="{{ file.name }}">{{ file.name }}</div>
+              <div class="file-meta">
+                <button class="btn btn-xs btn-danger" ng-click="deleteFile($event, file)" title="{{ 'document.default.delete_file' | translate }}">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <div class="pull-right">
+                  <input type="checkbox" ng-model="file.checked" title="{{ 'document.default.select_file' | translate }}" aria-label="{{ 'document.default.select_file' | translate }}: {{ file.name }}" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="file-card" ng-if="!file.id">
+            <div class="file-info">
+              <p class="text-center lead">
+                {{ file.status }}
+              </p>
+              <div class="progress">
+                <div class="progress-bar bg-primary" role="progressbar" ng-style="{ width: file.progress + '%' }" ng-attr-aria-valuenow="{{file.progress}}" aria-valuemin="0" aria-valuemax="100" title="{{ 'document.default.upload_progress' | translate }}">{{ file.progress }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 text-center" ng-if="files.length == 0">
+          <div class="upload-placeholder">
+            <i class="fas fa-cloud-upload-alt fa-4x text-muted"></i>
+            <p class="text-muted mt-3">{{ 'document.default.drop_zone' | translate }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-12" ng-show="documentsWorkflow && documentsWorkflow.length > 0">
+      <div class="dashboard-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-exclamation-triangle text-danger"></i> {{ 'document.default.workflow_document_list' | translate }}</h3>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-documents">
+              <thead>
+                <tr>
+                  <th class="col-xs-6">{{ 'document.title' | translate }}</th>
+                  <th class="col-xs-3">{{ 'document.current_step_name' | translate }}</th>
+                  <th class="col-xs-3">{{ 'document.creation_date' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-click="viewDocument(document.id)" ng-repeat="document in documentsWorkflow">
+                  <td>
+                    <strong>{{ document.title }}</strong> 
+                    <span class="text-muted">({{ document.file_count }})</span>
+                    <div class="tags small">
+                      <span class="teedy-tag" ng-repeat="tag in document.tags" ng-style="{ 'background': tag.color }">
+                        {{ tag.name }}
+                      </span>
+                    </div>
+                  </td>
+                  <td>{{ document.current_step_name }}</td>
+                  <td>
+                    <div class="text-muted small">{{ document.create_date | timeAgo: dateFormat }}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center my-4" ng-show="!logs">
+    <span class="fas fa-circle-notch fa-spin fa-2x text-primary"></span>
+  </div>
+
+  <div class="dashboard-panel" ng-show="logs.length > 0">
+    <div class="panel-header">
+      <h3><i class="fas fa-history"></i> {{ 'document.default.latest_activity' | translate }}</h3>
+    </div>
+    <div class="panel-body">
+      <audit-log logs="logs" />
+    </div>
+  </div>
+
+  <div ui-view="file"></div>
 </div>
-
-<div class="mb-19 text-center" ng-show="!logs">
-  <span class="fas fa-circle-notch fa-spin"></span>
-</div>
-
-<div class="well well-3d"  ng-show="logs.length > 0">
-  <h3 class="well-3d-header text-muted">
-    {{ 'document.default.latest_activity' | translate }}
-  </h3>
-  <audit-log logs="logs" />
-</div>
-
-<div ui-view="file"></div>
-
-<a href class="feedback" ng-if="userInfo.base_functions.indexOf('ADMIN') != -1" ng-click="openFeedback()">
-  {{ 'document.default.feedback' | translate }}
-</a>
