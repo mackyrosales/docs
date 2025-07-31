@@ -35,6 +35,12 @@ public class Metadata implements Loggable {
     private MetadataType type;
 
     /**
+     * Tag (for categorization or labeling).
+     */
+    @Column(name = "MET_TAG_C", length = 50)
+    private String tag;
+
+    /**
      * Deletion date.
      */
     @Column(name = "MET_DELETEDATE_D")
@@ -67,6 +73,14 @@ public class Metadata implements Loggable {
         return this;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     @Override
     public Date getDeleteDate() {
         return deleteDate;
@@ -82,6 +96,7 @@ public class Metadata implements Loggable {
                 .add("id", id)
                 .add("name", name)
                 .add("type", type)
+                .add("tag", tag)
                 .toString();
     }
 

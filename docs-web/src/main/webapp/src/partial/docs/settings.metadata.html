@@ -33,6 +33,16 @@
     </div>
 
     <div class="form-group">
+      <label class="col-sm-2 control-label" for="metadataTag">Tag</label>
+      <div class="col-sm-4">
+        <input name="tag" type="text" class="form-control" id="metadataTag" ng-model="newmetadata.tag" ng-maxlength="50" />
+      </div>
+      <div class="col-sm-4">
+        <span class="help-block" ng-show="metadataForm.tag.$error.maxlength && metadataForm.$dirty">{{ 'validation.too_long' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-primary" ng-click="addMetadata()" ng-disabled="!metadataForm.$valid">
           <span class="fas fa-pencil-alt"></span> {{ 'save' | translate }}
@@ -47,18 +57,23 @@
     <table class="table" ng-show="metadata">
       <thead>
       <tr>
-        <th width="70%">{{ 'settings.metadata.name' | translate }}</th>
+        <th width="40%">{{ 'settings.metadata.name' | translate }}</th>
         <th width="20%">{{ 'settings.metadata.type' | translate }}</th>
+        <th width="20%">Tag</th>
         <th width="10%"></th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="meta in metadata">
+      <tr ng-repeat="meta in metadata track by $index">
         <td>
           <input type="text" class="form-control" ng-model="meta.name" maxlength="50" ng-blur="updateMetadata(meta)" />
+          <span ng-if="$index === 0" class="label label-info">global</span>
         </td>
         <td>
           {{ meta.type }}
+        </td>
+        <td>
+          <input type="text" class="form-control" ng-model="meta.tag" maxlength="50" ng-blur="updateMetadata(meta)" />
         </td>
         <td>
           <span ng-click="deleteMetadata(meta)" class="fas fa-trash pointer"></span>

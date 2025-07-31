@@ -114,10 +114,11 @@ public class FileUtil {
      * @param language File language, can be null if associated to no document
      * @param userId User ID creating the file
      * @param documentId Associated document ID or null if no document
+     * @param filenamePattern Pattern to use for filename, can be null
      * @return File ID
      * @throws Exception e
      */
-    public static String createFile(String name, String previousFileId, Path unencryptedFile, long fileSize, String language, String userId, String documentId) throws Exception {
+    public static String createFile(String name, String previousFileId, Path unencryptedFile, long fileSize, String language, String userId, String documentId, String filenamePattern) throws Exception {
         // Validate mime type
         String mimeType;
         try {
@@ -149,13 +150,44 @@ public class FileUtil {
         file.setVersion(0);
         file.setLatestVersion(true);
         file.setDocumentId(documentId);
-        file.setName(StringUtils.abbreviate(name, 200));
         file.setMimeType(mimeType);
         file.setUserId(userId);
         file.setSize(fileSize);
 
-        // Get files of this document
+        // Filename pattern logic
         FileDao fileDao = new FileDao();
+        String finalName = name;
+        if (filenamePattern != null && !filenamePattern.trim().isEmpty()) {
+            // Find the next available number for this pattern (per document)
+            int nextNumber = 1;
+            if (documentId != null) {
+                List<File> files = fileDao.getByDocumentId(userId, documentId);
+                // Find max number used in this pattern
+                for (File f : files) {
+                    String fname = f.getName();
+                    if (fname != null && fname.startsWith(filenamePattern.replace("{number}", ""))) {
+                        String numPart = fname.replaceAll("\\D+", "");
+                        try {
+                            int n = Integer.parseInt(numPart);
+                            if (n >= nextNumber) nextNumber = n + 1;
+                        } catch (Exception ignore) {}
+                    }
+                }
+            }
+            finalName = filenamePattern.replace("{number}", String.format("%03d", nextNumber));
+            // Add extension if missing
+            if (!finalName.contains(".")) {
+                String ext = MimeTypeUtil.getFileExtension(mimeType);
+                if (ext != null && !ext.isEmpty()) {
+                    finalName += "." + ext;
+                }
+            }
+        } else {
+            finalName = StringUtils.abbreviate(name, 200);
+        }
+        file.setName(finalName);
+
+        // Get files of this document
         if (documentId != null) {
             if (previousFileId == null) {
                 // It's not a new version, so put it in last order

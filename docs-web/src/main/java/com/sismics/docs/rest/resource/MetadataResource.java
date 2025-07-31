@@ -59,7 +59,8 @@ public class MetadataResource extends BaseResource {
             metadata.add(Json.createObjectBuilder()
                     .add("id", metadataDto.getId())
                     .add("name", metadataDto.getName())
-                    .add("type", metadataDto.getType().name()));
+                    .add("type", metadataDto.getType().name())
+                    .add("tag", metadataDto.getTag() == null ? "" : metadataDto.getTag()));
         }
 
         JsonObjectBuilder response = Json.createObjectBuilder()
@@ -89,7 +90,8 @@ public class MetadataResource extends BaseResource {
      */
     @PUT
     public Response add(@FormParam("name") String name,
-                        @FormParam("type") String typeStr) {
+                        @FormParam("type") String typeStr,
+                        @FormParam("tag") String tag) {
         if (!authenticate()) {
             throw new ForbiddenClientException();
         }
@@ -98,19 +100,24 @@ public class MetadataResource extends BaseResource {
         // Validate input data
         name = ValidationUtil.validateLength(name, "name", 1, 50, false);
         MetadataType type = MetadataType.valueOf(ValidationUtil.validateLength(typeStr, "type", 1, 20, false));
+        if (tag != null) {
+            tag = ValidationUtil.validateLength(tag, "tag", 0, 50, true);
+        }
 
         // Create the metadata
         MetadataDao metadataDao = new MetadataDao();
         Metadata metadata = new Metadata();
         metadata.setName(name);
         metadata.setType(type);
+        metadata.setTag(tag);
         metadataDao.create(metadata, principal.getId());
 
         // Returns the metadata
         JsonObjectBuilder response = Json.createObjectBuilder()
                 .add("id", metadata.getId())
                 .add("name", metadata.getName())
-                .add("type", metadata.getType().name());
+                .add("type", metadata.getType().name())
+                .add("tag", metadata.getTag() == null ? "" : metadata.getTag());
         return Response.ok().entity(response.build()).build();
     }
 
@@ -138,7 +145,8 @@ public class MetadataResource extends BaseResource {
     @POST
     @Path("{id: [a-z0-9\\-]+}")
     public Response update(@PathParam("id") String id,
-                           @FormParam("name") String name) {
+                           @FormParam("name") String name,
+                           @FormParam("tag") String tag) {
         if (!authenticate()) {
             throw new ForbiddenClientException();
         }
@@ -146,6 +154,9 @@ public class MetadataResource extends BaseResource {
 
         // Validate input data
         name = ValidationUtil.validateLength(name, "name", 1, 50, false);
+        if (tag != null) {
+            tag = ValidationUtil.validateLength(tag, "tag", 0, 50, true);
+        }
 
         // Get the metadata
         MetadataDao metadataDao = new MetadataDao();
@@ -156,13 +167,15 @@ public class MetadataResource extends BaseResource {
 
         // Update the metadata
         metadata.setName(name);
+        metadata.setTag(tag);
         metadataDao.update(metadata, principal.getId());
 
         // Returns the metadata
         JsonObjectBuilder response = Json.createObjectBuilder()
                 .add("id", metadata.getId())
                 .add("name", metadata.getName())
-                .add("type", metadata.getType().name());
+                .add("type", metadata.getType().name())
+                .add("tag", metadata.getTag() == null ? "" : metadata.getTag());
         return Response.ok().entity(response.build()).build();
     }
 

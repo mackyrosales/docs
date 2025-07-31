@@ -86,4 +86,25 @@ public class DocumentMetadataDao {
         }
         return dtoList;
     }
+    
+    /**
+     * Returns the list of document IDs that have a specific metadata.
+     *
+     * @param metadataId Metadata ID
+     * @return List of document IDs
+     */
+    @SuppressWarnings("unchecked")
+    public List<String> getDocumentIdsByMetadataId(String metadataId) {
+        EntityManager em = ThreadLocalContext.get().getEntityManager();
+        StringBuilder sb = new StringBuilder("select distinct dm.DME_IDDOCUMENT_C");
+        sb.append(" from T_DOCUMENT_METADATA dm, T_METADATA m ");
+        sb.append(" where dm.DME_IDMETADATA_C = m.MET_ID_C and m.MET_ID_C = :metadataId and m.MET_DELETEDATE_D is null");
+
+        // Perform the search
+        Query q = em.createNativeQuery(sb.toString());
+        q.setParameter("metadataId", metadataId);
+        List<String> documentIds = q.getResultList();
+        
+        return documentIds;
+    }
 }

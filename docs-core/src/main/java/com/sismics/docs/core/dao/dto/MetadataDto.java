@@ -23,6 +23,11 @@ public class MetadataDto {
      */
     private MetadataType type;
 
+    /**
+     * Tag (for categorization or labeling).
+     */
+    private String tag;
+
     public String getId() {
         return id;
     }
@@ -47,6 +52,15 @@ public class MetadataDto {
 
     public MetadataDto setType(MetadataType type) {
         this.type = type;
+        return this;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public MetadataDto setTag(String tag) {
+        this.tag = tag;
         return this;
     }
 }

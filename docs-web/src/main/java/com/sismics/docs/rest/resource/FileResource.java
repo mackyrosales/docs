@@ -92,7 +92,8 @@ public class FileResource extends BaseResource {
     public Response add(
             @FormDataParam("id") String documentId,
             @FormDataParam("previousFileId") String previousFileId,
-            @FormDataParam("file") FormDataBodyPart fileBodyPart) {
+            @FormDataParam("file") FormDataBodyPart fileBodyPart,
+            @FormDataParam("filenamePattern") String filenamePattern) {
         if (!authenticate()) {
             throw new ForbiddenClientException();
         }
@@ -136,7 +137,7 @@ public class FileResource extends BaseResource {
 
         try {
             String fileId = FileUtil.createFile(name, previousFileId, unencryptedFile, fileSize, documentDto == null ?
-                    null : documentDto.getLanguage(), principal.getId(), documentId);
+                    null : documentDto.getLanguage(), principal.getId(), documentId, filenamePattern);
 
             // Always return OK
             JsonObjectBuilder response = Json.createObjectBuilder()

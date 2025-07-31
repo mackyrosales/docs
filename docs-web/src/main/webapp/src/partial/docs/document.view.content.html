@@ -237,6 +237,20 @@
   </p>
 </div>
 
+<!-- Filename pattern input for custom filenames -->
+<div class="row" ng-show="document.writable">
+  <div class="col-md-6 col-md-offset-3">
+    <div class="form-group">
+      <label for="filenamePattern">Filename pattern (e.g., SHEL{number})</label>
+      <input type="text" class="form-control" id="filenamePattern" ng-model="filenamePattern" placeholder="e.g., SHEL{number}" ng-change="updateFilenamePreview()" />
+      <small class="form-text text-muted">Leave blank to use the original filename. <br>Use <code>{number}</code> for auto-incrementing numbers.</small>
+      <div ng-if="filenamePreview">
+        <strong>Preview:</strong> {{ filenamePreview }}
+      </div>
+    </div>
+  </div>
+</div>
+
 <p class="text-center">
   <button class="btn btn-primary" ngf-select
     ngf-change="fileDropped($files, $event)"

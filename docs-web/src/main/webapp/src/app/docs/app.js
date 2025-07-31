@@ -283,6 +283,15 @@ angular.module('docs',
         }
       }
     })
+    .state('document.bytags', {
+      url: '/bytags',
+      views: {
+        'document': {
+          templateUrl: 'partial/docs/document.list.bytags.html',
+          controller: 'DocumentListByTags'
+        }
+      }
+    })
     .state('document.add', {
       url: '/add?files',
       views: {

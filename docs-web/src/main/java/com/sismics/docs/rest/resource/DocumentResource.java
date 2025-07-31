@@ -13,14 +13,18 @@ import com.sismics.docs.core.dao.RelationDao;
 import com.sismics.docs.core.dao.RouteStepDao;
 import com.sismics.docs.core.dao.TagDao;
 import com.sismics.docs.core.dao.UserDao;
+import com.sismics.docs.core.dao.MetadataDao;
+import com.sismics.docs.core.dao.DocumentMetadataDao;
 import com.sismics.docs.core.dao.criteria.DocumentCriteria;
 import com.sismics.docs.core.dao.criteria.TagCriteria;
+import com.sismics.docs.core.dao.criteria.MetadataCriteria;
 import com.sismics.docs.core.dao.dto.AclDto;
 import com.sismics.docs.core.dao.dto.ContributorDto;
 import com.sismics.docs.core.dao.dto.DocumentDto;
 import com.sismics.docs.core.dao.dto.RelationDto;
 import com.sismics.docs.core.dao.dto.RouteStepDto;
 import com.sismics.docs.core.dao.dto.TagDto;
+import com.sismics.docs.core.dao.dto.MetadataDto;
 import com.sismics.docs.core.event.DocumentCreatedAsyncEvent;
 import com.sismics.docs.core.event.DocumentDeletedAsyncEvent;
 import com.sismics.docs.core.event.DocumentUpdatedAsyncEvent;
@@ -1025,6 +1029,77 @@ public class DocumentResource extends BaseResource {
         // Always return OK
         JsonObjectBuilder response = Json.createObjectBuilder()
                 .add("status", "ok");
+        return Response.ok().entity(response.build()).build();
+    }
+
+    /**
+     * Returns documents grouped by metadata tags.
+     *
+     * @param limit Limit
+     * @param offset Offset
+     * @param sortColumn Sort column
+     * @param asc Ascending
+     * @return Response
+     */
+    @GET
+    @Path("by-tags")
+    public Response getByTags(
+            @QueryParam("limit") Integer limit,
+            @QueryParam("offset") Integer offset,
+            @QueryParam("sort_column") Integer sortColumn,
+            @QueryParam("asc") Boolean asc) {
+        if (!authenticate()) {
+            throw new ForbiddenClientException();
+        }
+
+        // Get all metadata with tags
+        MetadataDao metadataDao = new MetadataDao();
+        List<MetadataDto> metadataList = metadataDao.findByCriteria(new MetadataCriteria(), new SortCriteria(1, true));
+        
+        // Filter metadata that have tags
+        List<MetadataDto> taggedMetadata = new ArrayList<>();
+        for (MetadataDto metadata : metadataList) {
+            if (metadata.getTag() != null && !metadata.getTag().trim().isEmpty()) {
+                taggedMetadata.add(metadata);
+            }
+        }
+
+        JsonArrayBuilder tagsArray = Json.createArrayBuilder();
+        
+        for (MetadataDto metadata : taggedMetadata) {
+            // Get documents for this metadata tag using direct query
+            DocumentMetadataDao documentMetadataDao = new DocumentMetadataDao();
+            List<String> documentIds = documentMetadataDao.getDocumentIdsByMetadataId(metadata.getId());
+            
+            // Create documents array for this tag
+            JsonArrayBuilder documentsArray = Json.createArrayBuilder();
+            int documentCount = 0;
+            
+            if (!documentIds.isEmpty()) {
+                // Get basic document info for each ID
+                for (String documentId : documentIds) {
+                    // Create a simple document object with basic info
+                    JsonObjectBuilder documentBuilder = Json.createObjectBuilder()
+                            .add("id", documentId)
+                            .add("title", "Document " + documentId) // Placeholder - would need full document lookup
+                            .add("tag", metadata.getTag());
+                    documentsArray.add(documentBuilder);
+                    documentCount++;
+                }
+            }
+            
+            // Add tag with its documents
+            tagsArray.add(Json.createObjectBuilder()
+                    .add("tag", metadata.getTag())
+                    .add("metadata_id", metadata.getId())
+                    .add("metadata_name", metadata.getName())
+                    .add("document_count", documentCount)
+                    .add("documents", documentsArray));
+        }
+
+        JsonObjectBuilder response = Json.createObjectBuilder()
+                .add("tags", tagsArray);
+
         return Response.ok().entity(response.build()).build();
     }
 

@@ -29,6 +29,9 @@ angular.module('docs').controller('SettingsMetadata', function($scope, Restangul
 
   // Update a metadata
   $scope.updateMetadata = function(meta) {
-    Restangular.one('metadata', meta.id).post('', meta);
+    Restangular.one('metadata', meta.id).post('', {
+      name: meta.name,
+      tag: meta.tag
+    });
   };
 });

@@ -1,0 +1,86 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>{{ 'document.list.bytags.title' | translate }}</h2>
+      <p class="text-muted">{{ 'document.list.bytags.description' | translate }}</p>
+      
+      <!-- Tags list -->
+      <div class="row" ng-show="tags && tags.length > 0">
+        <div class="col-md-12">
+          <div class="panel-group" id="tagsAccordion">
+            <div class="panel panel-default" ng-repeat="tag in tags">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#tagsAccordion" href="#tag{{$index}}">
+                    <span class="badge">{{ tag.document_count }}</span>
+                    {{ tag.tag }} 
+                    <small class="text-muted">({{ tag.metadata_name }})</small>
+                  </a>
+                </h4>
+              </div>
+              <div id="tag{{$index}}" class="panel-collapse collapse" ng-class="{in: $index === 0}">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>{{ 'document.list.title' | translate }}</th>
+                              <th>{{ 'document.list.language' | translate }}</th>
+                              <th>{{ 'document.list.create_date' | translate }}</th>
+                              <th>{{ 'document.list.actions' | translate }}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="document in tag.documents">
+                              <td>
+                                <a href="#/document/{{ document.id }}">{{ document.title }}</a>
+                              </td>
+                              <td>
+                                <img ng-src="img/flags/{{ document.language }}.png" alt="{{ document.language }}" />
+                              </td>
+                              <td>{{ document.create_date | date:'short' }}</td>
+                              <td>
+                                <div class="btn-group">
+                                  <a href="#/document/{{ document.id }}" class="btn btn-xs btn-default">
+                                    <i class="fa fa-eye"></i>
+                                  </a>
+                                  <a href="#/document/{{ document.id }}/edit" class="btn btn-xs btn-default">
+                                    <i class="fa fa-edit"></i>
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- No tags message -->
+      <div class="row" ng-show="!tags || tags.length === 0">
+        <div class="col-md-12">
+          <div class="alert alert-info">
+            <i class="fa fa-info-circle"></i>
+            {{ 'document.list.bytags.no_tags' | translate }}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Loading -->
+      <div class="row" ng-show="loading">
+        <div class="col-md-12 text-center">
+          <i class="fa fa-spinner fa-spin fa-2x"></i>
+          <p>{{ 'common.loading' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

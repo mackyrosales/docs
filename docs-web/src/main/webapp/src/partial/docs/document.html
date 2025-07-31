@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="well well-3d">
-      <!-- Main new document button -->
+      <!-- Main navigation buttons -->
       <div class="text-center mb-19">
         <div class="btn-group" uib-dropdown id="document-add-btn">
           <a href="#/document/add" class="btn btn-primary">
@@ -13,6 +13,13 @@
           <ul uib-dropdown-menu>
             <li><a href ngf-select="importEml($file)">{{ 'document.import_eml' | translate }}</a></li>
           </ul>
+        </div>
+        
+        <!-- Documents by Tags button -->
+        <div class="mt-10">
+          <a href="#/document/bytags" class="btn btn-info btn-sm">
+            <span class="fas fa-tags"></span> {{ 'document.list.bytags.title' | translate }}
+          </a>
         </div>
       </div>
 

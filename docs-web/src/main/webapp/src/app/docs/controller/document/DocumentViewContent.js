@@ -140,6 +140,19 @@ angular.module('docs').controller('DocumentViewContent', function ($scope, $root
     }
   };
 
+  // Filename pattern and preview
+  $scope.filenamePattern = '';
+  $scope.filenamePreview = '';
+
+  $scope.updateFilenamePreview = function() {
+    if (!$scope.filenamePattern) {
+      $scope.filenamePreview = '';
+      return;
+    }
+    // Simple preview: replace {number} with next available (simulate with 1)
+    $scope.filenamePreview = $scope.filenamePattern.replace(/\{number\}/g, '1');
+  };
+
   /**
    * Upload a file.
    */
@@ -152,7 +165,8 @@ angular.module('docs').controller('DocumentViewContent', function ($scope, $root
       file: file,
       fields: {
         id: $stateParams.id,
-        previousFileId: previousFileId
+        previousFileId: previousFileId,
+        filenamePattern: $scope.filenamePattern // Pass pattern to backend
       }
     })
     .progress(function(e) {
@@ -162,7 +176,6 @@ angular.module('docs').controller('DocumentViewContent', function ($scope, $root
       // Update local model with real data
       newfile.id = data.id;
       newfile.size = data.size;
-
       // New file uploaded, increase used quota
       $rootScope.userInfo.storage_current += data.size;
     })

@@ -87,6 +87,17 @@
     "quota": "{{ current | number: 0 }}MB ({{ percent | number: 1 }}%) used on {{ total | number: 0 }}MB",
     "count": "{{ count }} document{{ count > 1 ? 's' : '' }} found",
     "last_updated": "Last updated {{ date | timeAgo: dateFormat }}",
+    "list": {
+      "bytags": {
+        "title": "Documents by Tags",
+        "description": "Browse documents organized by metadata tags",
+        "no_tags": "No metadata tags found. Create some metadata with tags in Settings > Metadata."
+      },
+      "title": "Title",
+      "language": "Language",
+      "create_date": "Creation Date",
+      "actions": "Actions"
+    },
     "view": {
       "delete_comment_title": "Delete comment",
       "delete_comment_message": "Do you really want to delete this comment?",
